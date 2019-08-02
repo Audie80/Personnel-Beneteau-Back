@@ -7,7 +7,7 @@ const app = express();
 
 // enable CORS (autorise requête multiorigines (Cross-Origin Request))
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin", "http://localhost");
     res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Origin, Origin, Accept, Content-type");
     next();
 });
