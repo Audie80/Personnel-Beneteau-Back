@@ -10,6 +10,7 @@ const bddsql = mysql.createConnection({
 
 // Retrieve and return all employees from the database.
 exports.findAll = (req, res) => {
+    //res.writeHead(200, { 'Access-Control-Allow-Origin': '*' });
     bddsql.query("SELECT * FROM `EMPLOYEES`", function (err, result, fields) {
         if (err) throw err;
         res.send(result);

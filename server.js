@@ -5,6 +5,13 @@ const mysql = require('mysql');
 // create express app
 const app = express();
 
+// enable CORS (autorise requête multiorigines (Cross-Origin Request))
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Origin, Origin, Accept, Content-type");
+    next();
+});
+
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
 

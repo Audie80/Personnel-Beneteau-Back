@@ -1,4 +1,4 @@
-<?php include(header.php) ?>
+<?php include('header.php'); ?>
 
 <section>
     <button>
@@ -6,4 +6,4 @@
     </button>
 </section>
 
-<?php include(footer.php) ?>
+<?php include('footer.php'); ?>

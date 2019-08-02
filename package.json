@@ -4,7 +4,9 @@
   "description": "Outil de gestion du personnel et des congés pour le commanditaire virtuel Beneteau",
   "author": "Aude Velly Menut",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "serve": "node server.js"
+  },
   "dependencies": {
     "body-parser": "~1.19.0",
     "express": "~4.17.1",

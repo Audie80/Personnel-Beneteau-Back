@@ -1,3 +1,5 @@
+<?php header("Access-Control-Allow-Origin: *"); ?>
+
 <aside>
     Filtrer par :
     <!-- Liste déroulante -->
@@ -17,8 +19,8 @@
                 <th>Supprimer</th>
             </tr>
         </thead>
-        <tbody>
-        
-        </tbody>
+        <tbody id="employees"></tbody>
     </table>
 </section>
+
+<script src="js/employees.js"></script>
