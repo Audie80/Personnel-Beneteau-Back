@@ -23,4 +23,5 @@
     </table>
 </section>
 
+<script src="config/common.js"></script>
 <script src="js/employees.js"></script>

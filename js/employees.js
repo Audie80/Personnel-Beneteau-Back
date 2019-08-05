@@ -67,11 +67,9 @@
 
     //Déclaration de la méthode goToFormEdit qui permet de modifier un employé
     goToFormEdit = (element) => {
-        //Récupération de l'id de l'employé
+        //Récupération de l'id de l'employé et enregistrement dans le sessionStorage
         let idEmployee = element.parentNode.parentNode.id.split("-")[1]
-        console.log(idEmployee);
-        
-        //Fetch de récupération de l'employé selon son id
+        sessionStorage.setItem('idEmployee', idEmployee);
 
         //On fait un redirect sur la page du formulaire employé
         document.location = './crud-employee.php'
@@ -104,16 +102,8 @@
     }
 
     // Récupération des données de l'API - Liste des employés
-    let myHeaders = new Headers();
-    myHeaders.append('Access-Control-Allow-Origin', 'http://localhost:3000/');
-    myHeaders.append('Content-type', 'application/json');
-
-    let myInit = {
-        headers: myHeaders,
-        mode: 'cors'
-    };
-
-    fetch('http://localhost:3000/api/employees', myInit).then(function (response) {
+    let url = baseUrl + 'employees';
+    fetch(url, myInit).then(function (response) {
         response.json().then(function (result) {
             employeesList = result;
             console.log(employeesList);

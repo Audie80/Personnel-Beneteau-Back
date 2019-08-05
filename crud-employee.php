@@ -21,3 +21,6 @@
         <input type="submit" value="Valider">
     </form>
 </section>
+
+<script src="config/common.js"></script>
+<script src="js/crud-employee.js"></script>
