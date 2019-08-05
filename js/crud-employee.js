@@ -32,9 +32,10 @@
                 });
                 let url = baseUrl + 'employee';
                 fetch(url, myInit).then(response => response.json())
-                    .then(result => console.log('fetch envoyé'));
+                    .then(result => console.log('Requête envoyée'));
 
-                //addEmployeeForm.reset();
+                addEmployeeForm.reset();
+
             } else {
                 console.log('test')
                 //Sinon on est en modification

@@ -5,7 +5,7 @@ module.exports = (app) => {
     app.get('/api/employees', employees.findAll);
 
     //Create a new Employee
-    app.post('/api/employee', employees.create);
+    //app.post('/api/employee', employees.create);
 
     // Retrieve a single Employee with ID_EMPLOYEE
     app.get('/api/employees/:ID_EMPLOYEE', employees.findOne);
