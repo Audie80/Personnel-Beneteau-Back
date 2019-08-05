@@ -18,15 +18,25 @@
             LastName: lastname.value,
             BirthDate: birthdate.value
         };
-
-        if (employee.FirstName !== undefined && employee.LastName !== undefined && employee.BirthDate !== undefined) {
+        if (employee.FirstName && employee.LastName && employee.BirthDate) {
 
             //Si pas d'employé sélectionné, on est en ajout
-            if (idEmployeeSelected === null && employeeSelected === []) {
-                //Fetch
-                addEmployeeForm.reset();
-            } else {
+            if (employeeSelected.length === 0) {
 
+                //Fetch
+                Object.defineProperty(myInit, 'method', {
+                    value: 'POST'
+                });
+                Object.defineProperty(myInit, 'body', {
+                    value: JSON.stringify(employee)
+                });
+                let url = baseUrl + 'employee';
+                fetch(url, myInit).then(response => response.json())
+                    .then(result => console.log('fetch envoyé'));
+
+                //addEmployeeForm.reset();
+            } else {
+                console.log('test')
                 //Sinon on est en modification
                 //Fetch
 
@@ -39,7 +49,9 @@
                 //On redirige
 
             }
-        }
+        } else {
+            alert('Veuillez remplir tous les champs');
+        };
         event.preventDefault();
     });
 

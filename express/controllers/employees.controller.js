@@ -14,16 +14,13 @@ exports.findAll = (req, res) => {
 
 // Create a new employee.
 exports.create = (req, res) => {
-    let employe = {
-        firstname: "Aude",
-        lastname: "Velly Menut",
-        birthdate: "1981-03-30"
-    }
-    let sql = 'INSERT INTO `EMPLOYEES`(`FirstName`, `LastName`, `BirthDate`) VALUES (' + mysql.escape(employe.firstname) + ',' + mysql.escape(employe.lastname) + ',' + mysql.escape(employe.birthdate) + ')';
+    console.log(req)
+    let sql = "INSERT INTO `EMPLOYEES`(`FirstName`, `LastName`, `BirthDate`) VALUES ('" + req.body.firstname + "','" + req.body.lastname + "','" + req.body.birthdate + "')";
     bddsql.BDDSQL.query(sql, function (err, result, fields) {
         if (err) throw err;
-        res.send(result);
+        //res.send(result);
     });
+    //var query = "INSERT INTO `EMPLOYEES`(`FirstName`, `LastName`, `BirthDate`) VALUES ('" + req.body.firstname + "','" + req.body.lastname + "','" + req.body.birthdate + "')";
 };
 
 // Retrieve a single Employee with ID_EMPLOYEE
