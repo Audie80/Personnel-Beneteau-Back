@@ -1,5 +1,8 @@
 //Variables globales
 
+let idEmployee = null;
+
+
 //Configuration des Fetch()
 let myHeaders = new Headers();
 myHeaders.append('Access-Control-Allow-Origin', 'http://localhost:3000/');

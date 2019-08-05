@@ -20,6 +20,6 @@
     <header>
         <img src="" alt="Logo de l'entreprise Beneteau">
         <nav>
-            <span>Outil de gestion du personnel</span>
+            <a href="employees.php">Outil de gestion du personnel</a>
         </nav>
     </header>

@@ -1,11 +1,13 @@
+<?php include('header.php'); ?>
+
 <aside>
     <button>Retour à la fiche personnel</button>
 </aside>
 
 <section>
-    <h1>Création / Modification d'un personnel</h1>
+    <h1 id="titleForm">Création d'un personnel</h1>
 
-    <form action="">
+    <form id="addEmployeeForm">
         <div>
             <label for="lastname">Nom </label>
             <input type="text" name="lastname" id="lastname">
@@ -21,6 +23,8 @@
         <input type="submit" value="Valider">
     </form>
 </section>
+
+<?php include('footer.php'); ?>
 
 <script src="config/common.js"></script>
 <script src="js/crud-employee.js"></script>
