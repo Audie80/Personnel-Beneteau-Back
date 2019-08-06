@@ -4,7 +4,7 @@
     let employeesList = []
 
 
-    //Raz
+    // Raz
     sessionStorage.setItem('idEmployee', null);
 
 
@@ -22,10 +22,12 @@
             </tr>`;
         } else {
 
+            // Ajout des employés
             for (let i = 0; i < employeesList.length; i++) {
                 addEmployee(employeesList[i])
             }
 
+            // Boutons Modifier
             let editEmployee = document.querySelectorAll(".editEmployee")
             Array.from(editEmployee).forEach((element) => {
                 element.addEventListener('click', (event) => {
@@ -33,6 +35,7 @@
                 });
             });
 
+            // Boutons Supprimer
             let deleteEmployee = document.querySelectorAll(".deleteEmployee")
             Array.from(deleteEmployee).forEach((element) => {
                 element.addEventListener('click', (event) => {
@@ -40,6 +43,7 @@
                 });
             });
 
+            // Données cliquables
             let employeeLink = document.querySelectorAll(".employeeLink")
             Array.from(employeeLink).forEach((element) => {
                 element.addEventListener('click', (event) => {
@@ -73,9 +77,9 @@
 
     //Déclaration de la méthode goToFormEdit qui permet de modifier un employé
     goToFormEdit = (element) => {
+
         //Récupération de l'id de l'employé et enregistrement dans le sessionStorage
         idEmployee = element.parentNode.parentNode.id.split("-")[1]
-        console.log(idEmployee);
         sessionStorage.setItem('idEmployee', idEmployee);
 
         //On fait un redirect sur la page du formulaire employé
@@ -86,38 +90,50 @@
     //Déclaration de la méthode removeEmployee qui permet de supprimer un employé
     removeEmployee = (element) => {
         if (confirm("Voulez-vous réellement supprimer ce personnel ?")) {
+
             //Récupération de l'id de l'employé
             idEmployee = element.parentNode.parentNode.id.split("-")[1]
-            console.log(idEmployee);
 
-            //Fetch de suppression de l'employé selon son id
+            // Communication avec l'API - Supprimer un employé
+            myInit.method = 'DELETE';
+            let urlDelete = baseUrl + 'employees/' + idEmployee + '/delete';
+            fetch(urlDelete, myInit).then(function (response) {
+                response.text().then(function (result) {
+                    alert('Suppression réussie');
+                });
+            });
 
             //On reload le tableau pour qu'il affiche la modification
-            reloadEmployees()
+            getEmployees();
         }
     }
 
 
     //Déclaration de la méthode qui permet d'aller sur la page de l'employé
     goToEmployeePage = (element) => {
-        console.log('test')
+
         //Récupération de l'id de l'employé et enregistrement dans le sessionStorage
         idEmployee = element.parentNode.parentNode.id.split("-")[1]
-        console.log(idEmployee);
         sessionStorage.setItem('idEmployee', idEmployee);
+
         //On fait un redirect sur la page employé
         document.location = './employee.php'
     }
 
 
     // Récupération des données de l'API - Liste des employés
-    let url = baseUrl + 'employees';
-    fetch(url, myInit).then(function (response) {
-        response.json().then(function (result) {
-            employeesList = result;
-            console.log(employeesList);
-            reloadEmployees();
+    let getEmployees = function() {
+        myInit.method = 'GET';
+        let urlGet = baseUrl + 'employees';
+        fetch(urlGet, myInit).then(function (response) {
+            response.json().then(function (result) {
+                employeesList = result;
+                reloadEmployees();
+            });
         });
-    });
+    }
+    
 
+    // Chargement des données au chargement de la page
+    window.onload=getEmployees();
 }

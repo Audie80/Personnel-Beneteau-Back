@@ -12,8 +12,8 @@ app.use(function (req, res, next) {
     next();
 });
 
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }))
+// permet de poster des objets JSON
+app.use(express.json())
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json())
@@ -25,16 +25,9 @@ bddsql.BDDSQL.connect(function (err) {
     if (err) throw err;
     console.log("Successfully connected to the database.");
     require('./express/routes/employees.routes')(app);
-    //require('./express/routes/leaves.routes')(app);
+    require('./express/routes/leaves.routes')(app);
 });
 
-
-app.post('/api/employee', function (req, res) {
-    let sql = "INSERT INTO `EMPLOYEES`(`FirstName`, `LastName`, `BirthDate`) VALUES ('" + req.body.FirstName + "','" + req.body.LastName + "','" + req.body.BirthDate + "')";
-    bddsql.BDDSQL.query(sql, function (err, result) {
-        if (err) throw err;
-    });
-});
 
 // listen for requests
 app.listen(3000, () => {

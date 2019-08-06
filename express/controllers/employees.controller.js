@@ -5,8 +5,8 @@ let bddsql = require('../../config/database.config');
 
 // Retrieve and return all employees from the database.
 exports.findAll = (req, res) => {
-    //res.writeHead(200, { 'Access-Control-Allow-Origin': '*' });
-    bddsql.BDDSQL.query("SELECT * FROM `EMPLOYEES`", function (err, result, fields) {
+    let sql = "SELECT ID_EMPLOYEE, FirstName, LastName, DATE_FORMAT(BirthDate, '%Y-%m-%d') as `BirthDate` FROM EMPLOYEES ORDER BY LastName";
+    bddsql.BDDSQL.query(sql, function (err, result) {
         if (err) throw err;
         res.send(result);
     });
@@ -14,20 +14,17 @@ exports.findAll = (req, res) => {
 
 // Create a new employee.
 exports.create = (req, res) => {
-    console.log(req)
-    let sql = "INSERT INTO `EMPLOYEES`(`FirstName`, `LastName`, `BirthDate`) VALUES ('" + req.body.firstname + "','" + req.body.lastname + "','" + req.body.birthdate + "')";
-    bddsql.BDDSQL.query(sql, function (err, result, fields) {
+    let sql = "INSERT INTO EMPLOYEES(FirstName, LastName, BirthDate) VALUES (" + mysql.escape(req.body.FirstName) + "," + mysql.escape(req.body.LastName) + "," + mysql.escape(req.body.BirthDate) + ")";
+    bddsql.BDDSQL.query(sql, function (err, result) {
         if (err) throw err;
-        //res.send(result);
     });
-    //var query = "INSERT INTO `EMPLOYEES`(`FirstName`, `LastName`, `BirthDate`) VALUES ('" + req.body.firstname + "','" + req.body.lastname + "','" + req.body.birthdate + "')";
 };
 
 // Retrieve a single Employee with ID_EMPLOYEE
 exports.findOne = (req, res) => {
     let url = req.params.ID_EMPLOYEE;
-    let sql = 'SELECT * FROM `EMPLOYEES` WHERE `ID_EMPLOYEE`=' + mysql.escape(url);
-    bddsql.BDDSQL.query(sql, function (err, result, fields) {
+    let sql = "SELECT ID_EMPLOYEE, FirstName, LastName, DATE_FORMAT(BirthDate, '%Y-%m-%d') as `BirthDate` FROM EMPLOYEES WHERE ID_EMPLOYEE=" + mysql.escape(url);
+    bddsql.BDDSQL.query(sql, function (err, result) {
         if (err) throw err;
         res.send(result);
     });
@@ -36,24 +33,17 @@ exports.findOne = (req, res) => {
 // Update an Employee with ID_EMPLOYEE
 exports.update = (req, res) => {
     let url = req.params.ID_EMPLOYEE;
-    let employe = {
-        firstname: "Aude",
-        lastname: "Velly Menut",
-        birthdate: "1981-03-30"
-    }
-    let sql = 'UPDATE `EMPLOYEES` SET `FirstName`=' + mysql.escape(employe.firstname) + ',`LastName`=' + mysql.escape(employe.lastname) + ',`BirthDate`=' + mysql.escape(employe.birthdate) + ' WHERE `ID_EMPLOYEE`=' + mysql.escape(url);
-    bddsql.BDDSQL.query(sql, function (err, result, fields) {
+    let sql = "UPDATE EMPLOYEES SET FirstName=" + mysql.escape(req.body.FirstName) + ", LastName=" + mysql.escape(req.body.LastName) + ", BirthDate=" + mysql.escape(req.body.BirthDate) + " WHERE ID_EMPLOYEE=" + mysql.escape(url);
+    bddsql.BDDSQL.query(sql, function (err, result) {
         if (err) throw err;
-        res.send(result);
     });
 };
 
 // Delete an Employee with ID_EMPLOYEE
 exports.delete = (req, res) => {
     let url = req.params.ID_EMPLOYEE;
-    let sql = 'DELETE FROM `EMPLOYEES` WHERE `ID_EMPLOYEE`=' + mysql.escape(url);
-    bddsql.BDDSQL.query(sql, function (err, result, fields) {
+    let sql = "DELETE FROM EMPLOYEES WHERE ID_EMPLOYEE=" + mysql.escape(url);
+    bddsql.BDDSQL.query(sql, function (err, result) {
         if (err) throw err;
-        res.send(result);
     });
 };

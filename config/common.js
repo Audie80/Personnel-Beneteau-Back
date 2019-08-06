@@ -14,4 +14,12 @@ let myInit = {
     mode: 'cors'
 };
 
+// Méthode GET par défaut, modifiable par myInit.method directement par la suite
+Object.defineProperty(myInit, 'method', {
+    value: 'GET',
+    writable: true
+});
+
+
+// Url de l'API
 let baseUrl = 'http://localhost:3000/api/';

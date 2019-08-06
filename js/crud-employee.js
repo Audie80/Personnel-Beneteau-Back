@@ -23,33 +23,50 @@
             //Si pas d'employé sélectionné, on est en ajout
             if (employeeSelected.length === 0) {
 
-                //Fetch
-                Object.defineProperty(myInit, 'method', {
-                    value: 'POST'
-                });
+                // Communication avec l'API - Ajout d'un employé
+                myInit.method = 'POST';
                 Object.defineProperty(myInit, 'body', {
                     value: JSON.stringify(employee)
                 });
-                let url = baseUrl + 'employee';
-                fetch(url, myInit).then(response => response.json())
-                    .then(result => console.log('Requête envoyée'));
+                let urlPost = baseUrl + 'employee';
+                fetch(urlPost, myInit).then(response => response.json())
+                    .then(result => result.send('Création effectuée'));
 
+                alert('Création effectuée');
+
+                // Raz du formulaire
                 addEmployeeForm.reset();
 
+            //Sinon on est en modification
             } else {
-                console.log('test')
-                //Sinon on est en modification
-                //Fetch
 
-                //On clean le formulaire et on efface l'id et l'employé sélectionné
-                addEmployeeForm.reset();
+                // Communication avec l'API - Update d'un employé
+                myInit.method = 'PUT';
+                Object.defineProperty(myInit, 'body', {
+                    value: JSON.stringify(employee)
+                });
+                let urlPut = baseUrl + 'employees/' + idEmployeeSelected + '/update';
+                fetch(urlPut, myInit).then(response => response.json())
+                    .then(result => result.send('Modification effectuée'));
+
+                alert('Modification effectuée');
+
+                //On efface l'id et l'employé sélectionné
                 sessionStorage.setItem('idEmployee', null);
                 idEmployeeSelected = null;
                 employeeSelected = [];
-
-                //On redirige
-
             }
+
+            // Redirection vers la liste d'employés au bout d'un petit délai pour laisser le temps au fetch de se terminer
+            function pageRedirect() {
+                let delay = 400; // time in milliseconds
+
+                setTimeout(function () {
+                    document.location = './employees.php'
+                }, delay);
+            }
+            pageRedirect();
+
         } else {
             alert('Veuillez remplir tous les champs');
         };
@@ -78,7 +95,6 @@
         fetch(url, myInit).then(function (response) {
             response.json().then(function (result) {
                 employeeSelected = result;
-                console.log(employeeSelected)
                 modifFormEdit();
             });
         });
