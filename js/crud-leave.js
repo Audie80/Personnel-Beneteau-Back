@@ -1,12 +1,18 @@
 {
+    // !!! Vérifier que la date de fin est après la date de début !!!
+    // !!! Vérifier qu'il n'y a pas déjà un congé à cette date quand on en crée un !!!
+
     //Récupération des id
     let idEmployeeSelected = sessionStorage.getItem('idEmployee');
     let idLeaveSelected = sessionStorage.getItem('idLeave');
+    let leaveDateForCreate = sessionStorage.getItem('leaveDate');
+
 
     //Variables
     let addLeaveForm = document.querySelector("#addLeaveForm");
     let beginningdate = document.querySelector("#beginningdate");
     let endingdate = document.querySelector("#endingdate");
+    let titleFormLeave = document.querySelector("#titleFormLeave");
     let leaveSelected = [];
 
 
@@ -53,6 +59,7 @@
 
                 //On efface l'id et le congé sélectionné
                 sessionStorage.setItem('idLeave', null);
+                sessionStorage.setItem('leaveDate', null);
                 idLeaveSelected = null;
                 leaveSelected = [];
             }
@@ -79,7 +86,7 @@
         if (idLeaveSelected !== null && leaveSelected.length !== 0) {
 
             //On modifie le titre du formulaire
-            titleForm.textContent = "Modification d'un congé"
+            titleFormLeave.textContent = "Modification d'un congé"
 
             //On remplit les champs
             beginningdate.value = leaveSelected[0].BeginningDate;
@@ -90,7 +97,7 @@
 
     //Si on est en modification, Récupération des données de l'API - Infos du congé sélectionné
     if (idLeaveSelected !== null) {
-        let url = baseUrl + 'employees/' + idEmployeeSelected + 'leaves/' + idLeaveSelected;
+        let url = baseUrl + 'employees/' + idEmployeeSelected + '/leaves/' + idLeaveSelected;
         fetch(url, myInit).then(function (response) {
             response.json().then(function (result) {
                 leaveSelected = result;
@@ -99,4 +106,11 @@
         });
     };
 
+
+    //Si on est en création, Récupération de la date sélectionnée pour la création
+    if (leaveDateForCreate !== null) {
+        //On remplit les champs
+        beginningdate.value = leaveDateForCreate;
+        endingdate.value = leaveDateForCreate;
+    }
 }

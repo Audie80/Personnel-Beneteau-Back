@@ -7,9 +7,18 @@
     let nameInfo = document.querySelector("#nameInfo");
     let birthDateInfo = document.querySelector("#birthDateInfo");
     let dateRow = document.querySelector("#dateRow");
+    let monthSelect = document.querySelector("#month");
+    let tdDate;
     let employeeSelected = [];
     let employeeLeaves = [];
     let idLeaveSelected;
+    let popupCreateButton = document.querySelector("#popupCreateButton");
+    let popupEditButton = document.querySelector("#popupEditButton");
+    let popupDeleteButton = document.querySelector("#popupDeleteButton");
+    
+
+    // Raz
+    sessionStorage.setItem('leaveDate', null);
 
 
     // Remplissage des infos de l'employé
@@ -41,12 +50,14 @@
                 colorLeave(employeeLeaves[i])
             }
 
-            // Ouverture de la pop-up de modification
+            // Ouverture de la pop-up de modification pour les <td> ayant la classe tdDate
             let leavePopup = document.querySelectorAll(".tdDate")
             Array.from(leavePopup).forEach((element) => {
-                element.addEventListener('click', (event) => {
-                    popUp(element)
-                });
+                if (element.id.split("_")[0] == 'td') {
+                    element.addEventListener('click', (event) => {
+                        popUp(element)
+                    });
+                }
             });
         }
     };
@@ -194,12 +205,17 @@
     let colorLeave = (leave) => {
 
         // Ajouter une méthode qui regarde si la date est incluse dans les congés, si oui colorer la td
-        let tdDate = document.querySelectorAll(".tdDate");
+        tdDate = document.querySelectorAll(".tdDate");
         let idTdDate;
+        let tag;
         for (let i = 0; i < tdDate.length; i++) {
             // On récupère la date dans l'ID pour pouvoir la comparer avec les dates de congés
             idTdDate = tdDate[i].id.split("_")[1];
-            if (idTdDate >= leave.BeginningDate && idTdDate <= leave.EndingDate) {
+
+            // On compare que les <td> pas les <th>
+            tag = tdDate[i].id.split("_")[0];
+
+            if (idTdDate >= leave.BeginningDate && idTdDate <= leave.EndingDate && tag == 'td') {
                 tdDate[i].style.backgroundColor = 'green';
 
                 // On récupère l'ID_LEAVE et on l'ajoute en tant que class
@@ -211,13 +227,83 @@
 
     //Déclaration de la méthode qui ouvre la pop-up de modification
     popUp = (element) => {
-        // Récupérer l'ID_LEAVE, le stocker dans le sessionStorage, ouvrir la popup, remplir les champs
-        idLeaveSelected = element.classList[1];
-        sessionStorage.setItem('idLeaveSelected', idLeaveSelected);
-        console.log('idLeaveSelected' + idLeaveSelected)
-        document.getElementById("formLeave").style.display = "none";
+
+        document.getElementById("formLeave").style.display = "block";
+
+        // Si c'est une case sans congé, on affiche juste le bouton "Ajouter"
+        if (element.classList.length == 1) {
+            popupEditButton.style.display = "none";
+            popupDeleteButton.style.display = "none";
+        } else {
+            popupEditButton.style.display = "inline";
+            popupDeleteButton.style.display = "inline";
+
+            // Récupérer l'ID_LEAVE, le stocker dans le sessionStorage
+            idLeaveSelected = element.classList[1];
+            sessionStorage.setItem('idLeave', idLeaveSelected);
+        }
+
+        // Le bouton Ajouter nous amène sur le formulaire de création et remplit les dates début et fin avec la date sélectionnée
+        popupCreateButton.addEventListener('click', (event) => {
+            idTdDate = element.id.split("_")[1];
+            sessionStorage.setItem('leaveDate', idTdDate);
+            document.location = './crud-leave.php'
+        });
+        
+        // Le bouton Modifier nous amène sur le formulaire de modification
+        popupEditButton.addEventListener('click', (event) => {
+            document.location = './crud-leave.php'
+        });
+
+        // Le bouton Supprimer supprime l'ID_LEAVE
+        popupDeleteButton.addEventListener('click', (event) => {
+            
+            if (confirm("Voulez-vous réellement supprimer ce congé ?")) {
+
+                // Communication avec l'API - Supprimer un congé
+                myInit.method = 'DELETE';
+                let urlDelete = baseUrl + 'employees/' + idEmployeeSelected + '/leaves/' + idLeaveSelected + '/delete';
+                fetch(urlDelete, myInit).then(function (response) {
+                    response.text().then(function (result) {
+                        alert('Suppression réussie');
+                    });
+                });
+
+                //On reload le tableau pour qu'il affiche la modification
+                getLeaves();
+            }
+        });
     }
 
+
+    // Affichage des différents mois selon l'option choisie de la liste déroulante
+    monthSelect.addEventListener('click', (event) => {
+        let tdDate = document.querySelectorAll(".tdDate");
+        let tdMonth;
+
+        // On récupère la valeur du select
+        let month = monthSelect.value;
+        
+        // On récupère le mois dans l'ID pour pouvoir le comparer avec l'option du select
+        for (let i = 0; i < tdDate.length; i++) {
+            tdMonth = tdDate[i].id.split("_")[1].split("-")[1];
+
+            // Si l'option par défaut est sélectionnée, on affiche tous les mois
+            if (month == '') {
+                tdDate[i].style.display = "table-cell";
+
+            } else {
+               // On masque tout
+                tdDate[i].style.display = "none";
+
+                // Puis on affiche seulement les td concernés
+                if (tdMonth == month) {
+                    tdDate[i].style.display = "table-cell";
+                } 
+            } 
+        }
+    });
+    
 
     // Récupération des données de l'API - Congés de l'employé sélectionné
     let getLeaves = function () {
@@ -226,7 +312,6 @@
         fetch(urlGet, myInit).then(function (response) {
             response.json().then(function (result) {
                 employeeLeaves = result;
-                reloadEmployee();
                 reloadLeaves();
             });
         });
@@ -240,6 +325,7 @@
         fetch(url, myInit).then(function (response) {
             response.json().then(function (result) {
                 employeeSelected = result;
+                reloadEmployee();
                 getLeaves();
             });
         });

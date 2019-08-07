@@ -1,7 +1,7 @@
 <?php include('header.php'); ?>
 
 <aside>
-    <button>Retour à la fiche personnel</button>
+    <button><a href="employee.php">Retour à la fiche personnel</a></button>
 </aside>
 
 <section>
