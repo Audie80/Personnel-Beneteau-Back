@@ -6,9 +6,10 @@
     // Variables
     let nameInfo = document.querySelector("#nameInfo");
     let birthDateInfo = document.querySelector("#birthDateInfo");
-    let leavesTable = document.querySelector("#leaves");
+    let dateRow = document.querySelector("#dateRow");
     let employeeSelected = [];
     let employeeLeaves = [];
+    let idLeaveSelected;
 
 
     // Remplissage des infos de l'employé
@@ -22,27 +23,27 @@
 
 
     // Remplissage des congés de l'employé
-    reloadLeaves = () => {
+    reloadLeaves = () => {        
 
         //Ménage de la zone
-        leavesTable.innerHTML = '';
+        dateRow.innerHTML = '';
 
         //On ajoute un message si pas de congés
         if (employeeLeaves.length === 0) {
-            leavesTable.innerHTML += `
-            <tr role="row">
-            <td colspan="5"><center>Aucun congé posé</center></td>
-            </tr>`;
-        } else {
+            dateRow.innerHTML += `<td colspan="10">Aucun congé posé</td>`;
 
-            // Ajout des congés
+        } else {
+            // Ajout des cellules date
+            addCells();
+            
+            // Mise en couleur des cellules congés
             for (let i = 0; i < employeeLeaves.length; i++) {
-                addLeave(employeeLeaves[i])
+                colorLeave(employeeLeaves[i])
             }
 
             // Ouverture de la pop-up de modification
-            let leaveLink = document.querySelectorAll(".leaveLink")
-            Array.from(leaveLink).forEach((element) => {
+            let leavePopup = document.querySelectorAll(".tdDate")
+            Array.from(leavePopup).forEach((element) => {
                 element.addEventListener('click', (event) => {
                     popUp(element)
                 });
@@ -51,26 +52,169 @@
     };
 
 
-    // Ajout des employés au tableau
-    let addLeave = (leave) => {
+    // Ajout des cellules au tableau
+    let addCells = () => {
+        let idCell;
+
+        // Janvier
+        for (let i = 1 ; i <= 31 ; i++) {
+            if (i < 10) {
+                idCell = 'td_2019-01-0' + i;
+            } else {
+                idCell = 'td_2019-01-' + i;
+            }
+            let cell = `<td class="tdDate" id="` + idCell + `" style="cursor:pointer"></td>`;
+            dateRow.innerHTML += cell;
+        }
+
+        // Février
+        for (let i = 1; i <= 28; i++) {
+            if (i < 10) {
+                idCell = 'td_2019-02-0' + i;
+            } else {
+                idCell = 'td_2019-02-' + i;
+            }
+            let cell = `<td class="tdDate" id="` + idCell + `" style="cursor:pointer"></td>`;
+            dateRow.innerHTML += cell;
+        }
+
+        // Mars
+        for (let i = 1; i <= 31; i++) {
+            if (i < 10) {
+                idCell = 'td_2019-03-0' + i;
+            } else {
+                idCell = 'td_2019-03-' + i;
+            }
+            let cell = `<td class="tdDate" id="` + idCell + `" style="cursor:pointer"></td>`;
+            dateRow.innerHTML += cell;
+        }
+
+        // Avril
+        for (let i = 1; i <= 30; i++) {
+            if (i < 10) {
+                idCell = 'td_2019-04-0' + i;
+            } else {
+                idCell = 'td_2019-04-' + i;
+            }
+            let cell = `<td class="tdDate" id="` + idCell + `" style="cursor:pointer"></td>`;
+            dateRow.innerHTML += cell;
+        }
+
+        // Mai
+        for (let i = 1; i <= 31; i++) {
+            if (i < 10) {
+                idCell = 'td_2019-05-0' + i;
+            } else {
+                idCell = 'td_2019-05-' + i;
+            }
+            let cell = `<td class="tdDate" id="` + idCell + `" style="cursor:pointer"></td>`;
+            dateRow.innerHTML += cell;
+        }
+
+        // Juin
+        for (let i = 1; i <= 30; i++) {
+            if (i < 10) {
+                idCell = 'td_2019-06-0' + i;
+            } else {
+                idCell = 'td_2019-06-' + i;
+            }
+            let cell = `<td class="tdDate" id="` + idCell + `" style="cursor:pointer"></td>`;
+            dateRow.innerHTML += cell;
+        }
+        
+        // Juillet
+        for (let i = 1; i <= 31; i++) {
+            if (i < 10) {
+                idCell = 'td_2019-07-0' + i;
+            } else {
+                idCell = 'td_2019-07-' + i;
+            }
+            let cell = `<td class="tdDate" id="` + idCell + `" style="cursor:pointer"></td>`;
+            dateRow.innerHTML += cell;
+        }
+
+        // Août
+        for (let i = 1; i <= 31; i++) {
+            if (i < 10) {
+                idCell = 'td_2019-08-0' + i;
+            } else {
+                idCell = 'td_2019-08-' + i;
+            }
+            let cell = `<td class="tdDate" id="` + idCell + `" style="cursor:pointer"></td>`;
+            dateRow.innerHTML += cell;
+        }
+
+        // Septembre
+        for (let i = 1; i <= 30; i++) {
+            if (i < 10) {
+                idCell = 'td_2019-09-0' + i;
+            } else {
+                idCell = 'td_2019-09-' + i;
+            }
+            let cell = `<td class="tdDate" id="` + idCell + `" style="cursor:pointer"></td>`;
+            dateRow.innerHTML += cell;
+        }
+
+        // Octobre
+        for (let i = 1; i <= 31; i++) {
+            if (i < 10) {
+                idCell = 'td_2019-10-0' + i;
+            } else {
+                idCell = 'td_2019-10-' + i;
+            }
+            let cell = `<td class="tdDate" id="` + idCell + `" style="cursor:pointer"></td>`;
+            dateRow.innerHTML += cell;
+        }
+
+        // Novembre
+        for (let i = 1; i <= 30; i++) {
+            if (i < 10) {
+                idCell = 'td_2019-11-0' + i;
+            } else {
+                idCell = 'td_2019-11-' + i;
+            }
+            let cell = `<td class="tdDate" id="` + idCell + `" style="cursor:pointer"></td>`;
+            dateRow.innerHTML += cell;
+        }
+
+        // Décembre
+        for (let i = 1; i <= 31; i++) {
+            if (i < 10) {
+                idCell = 'td_2019-12-0' + i;
+            } else {
+                idCell = 'td_2019-12-' + i;
+            }
+            let cell = `<td class="tdDate" id="` + idCell + `" style="cursor:pointer"></td>`;
+            dateRow.innerHTML += cell;
+        }
+    }
+
+
+    // Mise en couleur des congés
+    let colorLeave = (leave) => {
 
         // Ajouter une méthode qui regarde si la date est incluse dans les congés, si oui colorer la td
-        let cell = `
-                <td role="cell" id="leave-`+ leave.ID_LEAVE + `" class="leaveLink" style="cursor:pointer">
-                    `+ leave.BeginningDate + `
-                </td>`;
+        let tdDate = document.querySelectorAll(".tdDate");
+        let idTdDate;
+        for (let i = 0; i < tdDate.length; i++) {
+            // On récupère la date dans l'ID pour pouvoir la comparer avec les dates de congés
+            idTdDate = tdDate[i].id.split("_")[1];
+            if (idTdDate >= leave.BeginningDate && idTdDate <= leave.EndingDate) {
+                tdDate[i].style.backgroundColor = 'green';
 
-        if (employeeLeaves.length === 0) {
-
-            leavesTable.innerHTML = cell;
-        } else {
-            leavesTable.innerHTML += cell;
+                // On récupère l'ID_LEAVE et on l'ajoute en tant que class
+                tdDate[i].classList.add(leave.ID_LEAVE);
+            }
         }
     }
 
 
     //Déclaration de la méthode qui ouvre la pop-up de modification
     popUp = (element) => {
+        // Récupérer l'ID_LEAVE, le stocker dans le sessionStorage, ouvrir la popup, remplir les champs
+        idLeaveSelected = element.classList[1];
+        sessionStorage.setItem('idLeaveSelected', idLeaveSelected);
+        console.log('idLeaveSelected' + idLeaveSelected)
         document.getElementById("formLeave").style.display = "none";
     }
 
@@ -82,7 +226,6 @@
         fetch(urlGet, myInit).then(function (response) {
             response.json().then(function (result) {
                 employeeLeaves = result;
-                console.log(employeeLeaves.length);
                 reloadEmployee();
                 reloadLeaves();
             });
