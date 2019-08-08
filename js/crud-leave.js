@@ -10,10 +10,29 @@
 
     //Variables
     let addLeaveForm = document.querySelector("#addLeaveForm");
+    let resetButton = document.querySelector("#reset");
     let beginningdate = document.querySelector("#beginningdate");
     let endingdate = document.querySelector("#endingdate");
     let titleFormLeave = document.querySelector("#titleFormLeave");
     let leaveSelected = [];
+
+
+    //On ajoute au formulaire un évènement Annuler
+    resetButton.addEventListener("click", (event) => {
+
+        //Si congé sélectionné, on est en modification
+        if (leaveSelected.length !== 0) {
+
+            //On efface l'id et le congé sélectionné
+            sessionStorage.setItem('idLeave', null);
+            sessionStorage.setItem('leaveDate', null);
+            idLeaveSelected = null;
+            leaveSelected = [];
+        }
+
+        // Redirection
+        document.location = './employee.php'
+    });
 
 
     //On ajoute au formulaire un évènement submit
@@ -39,9 +58,6 @@
                     .then(result => result.send('Création effectuée'));
 
                 alert('Création effectuée');
-
-                // Raz du formulaire
-                addLeaveForm.reset();
 
                 //Sinon on est en modification
             } else {
@@ -69,7 +85,7 @@
                 let delay = 400; // time in milliseconds
 
                 setTimeout(function () {
-                    document.location = './employee.php'
+                    document.location = './employee.php';
                 }, delay);
             }
             pageRedirect();
@@ -107,7 +123,7 @@
     };
 
 
-    //Si on est en création, Récupération de la date sélectionnée pour la création
+    //Si on est en création via une popup, Récupération de la date sélectionnée pour la création
     if (leaveDateForCreate !== null) {
         //On remplit les champs
         beginningdate.value = leaveDateForCreate;

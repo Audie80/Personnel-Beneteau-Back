@@ -39,7 +39,7 @@
 
         //On ajoute un message si pas de congés
         if (employeeLeaves.length === 0) {
-            dateRow.innerHTML += `<td colspan="10">Aucun congé posé</td>`;
+            dateRow.innerHTML += `<td colspan="365">Aucun congé posé</td>`;
 
         } else {
             // Ajout des cellules date

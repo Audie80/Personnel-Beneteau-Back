@@ -1,6 +1,7 @@
 {
     // Variables
     let dateRowAll = document.querySelector("#dateRowAll");
+    let monthSelect = document.querySelector("#month");
     let employeesList = [];
     let employeesLeaves = [];
 
@@ -13,7 +14,7 @@
 
         //On ajoute un message si pas d'employés'
         if (employeesLeaves.length === 0) {
-            dateRowAll.innerHTML += `<tr><td colspan="20">Il n'y a pas d'employés dans cette entreprise</td></tr>`;
+            dateRowAll.innerHTML += `<tr><td colspan="365">Il n'y a pas d'employés dans cette entreprise</td></tr>`;
 
         } else {
             // Ajout d'une ligne par employé
@@ -39,13 +40,44 @@
     };
 
 
+    // Affichage des différents mois selon l'option choisie de la liste déroulante
+    monthSelect.addEventListener('click', (event) => {
+        let tdDate = document.querySelectorAll(".tdDate");
+        let tdMonth;
+
+        // On récupère la valeur du select
+        let month = monthSelect.value;
+
+        // On récupère le mois dans l'ID pour pouvoir le comparer avec l'option du select
+        for (let i = 0; i < tdDate.length; i++) {
+            tdMonth = tdDate[i].id.split("_")[1].split("-")[1];
+
+            // Si l'option par défaut est sélectionnée, on affiche tous les mois
+            if (month == '') {
+                tdDate[i].style.display = "table-cell";
+
+            } else {
+                // On masque tout
+                tdDate[i].style.display = "none";
+
+                // Puis on affiche seulement les <td> concernés
+                if (tdMonth == month) {
+                    tdDate[i].style.display = "table-cell";
+                }
+            }
+        }
+    });
+
+
     // Ajout des cellules au tableau
     let addemployee = (employee) => {
 
         // Ajout de la première cellule avec les nom et prénom de l'employé
         dateRowAll.innerHTML += `<tr id="employee-` + employee.ID_EMPLOYEE + `"></tr>`;
         let trId = '#employee-' + employee.ID_EMPLOYEE;
-        let employeeName = `<td><span class="employeeLink" style="cursor:pointer">` + employee.LastName + ` ` + employee.FirstName + `</span></td>`;
+        let employeeName = `
+        <td><span class="employeeLink" style="cursor:pointer">` + employee.LastName + `</span></td>
+        <td><span class="employeeLink" style="cursor:pointer">` + employee.FirstName + `</span></td>`;
         document.querySelector(trId).insertAdjacentHTML('afterbegin', employeeName);
 
         let idCell;

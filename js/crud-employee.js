@@ -4,20 +4,41 @@
 
     //Variables
     let addEmployeeForm = document.querySelector("#addEmployeeForm");
+    let resetButton = document.querySelector("#reset");
     let firstname = document.querySelector("#firstname");
     let lastname = document.querySelector("#lastname");
     let birthdate = document.querySelector("#birthdate");
     let employeeSelected = [];
 
 
+    //On ajoute au formulaire un évènement Annuler
+    resetButton.addEventListener("click", (event) => {
+
+        //Si pas d'employé sélectionné, on est en ajout
+        if (employeeSelected.length === 0) {
+
+            // Redirection
+            document.location = './employees.php'
+
+        //Sinon on est en modification
+        } else {
+
+            // Redirection
+            document.location = './employee.php'
+        }
+    });
+
+
     //On ajoute au formulaire un évènement submit
     addEmployeeForm.addEventListener("submit", (event) => {
 
+        // Création de l'objet employee
         let employee = {
             FirstName: firstname.value,
             LastName: lastname.value,
             BirthDate: birthdate.value
         };
+
         if (employee.FirstName && employee.LastName && employee.BirthDate) {
 
             //Si pas d'employé sélectionné, on est en ajout
@@ -33,9 +54,6 @@
                     .then(result => result.send('Création effectuée'));
 
                 alert('Création effectuée');
-
-                // Raz du formulaire
-                addEmployeeForm.reset();
 
             //Sinon on est en modification
             } else {
@@ -57,12 +75,12 @@
                 employeeSelected = [];
             }
 
-            // Redirection vers la liste d'employés au bout d'un petit délai pour laisser le temps au fetch de se terminer
+            // Redirection vers la liste des employés au bout d'un petit délai pour laisser le temps au fetch de se terminer
             function pageRedirect() {
                 let delay = 400; // time in milliseconds
 
                 setTimeout(function () {
-                    document.location = './employees.php'
+                    document.location = './employees.php';
                 }, delay);
             }
             pageRedirect();

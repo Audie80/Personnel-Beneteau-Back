@@ -62,8 +62,8 @@
         <td><span class="employeeLink" style="cursor:pointer">`+ employee.LastName + `</span></td>
         <td><span class="employeeLink" style="cursor:pointer">`+ employee.FirstName + `</span></td>
         <td><span class="employeeLink" style="cursor:pointer">`+ employee.BirthDate + `</span></td>
-        <td><span class="editEmployee" style="cursor:pointer">Modifier</span></td>
-        <td><span class="deleteEmployee" style="cursor:pointer">Supprimer</span></td>
+        <td><span class="editEmployee ml-2" style="cursor:pointer"><i class="far fa-edit"></i></span></td>
+        <td><span class="deleteEmployee ml-2" style="cursor:pointer"><i class="far fa-trash-alt"></i></span></td>
         </tr>`;
 
         if (employeesList.length === 0) {
