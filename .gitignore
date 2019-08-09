@@ -18,6 +18,3 @@ node_modules/
 
 # dotenv environment variables file
 .env
-
-# Package-lock
-package-lock.json
