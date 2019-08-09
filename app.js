@@ -7,7 +7,7 @@ const app = express();
 // enable CORS (autorise requête multiorigines (Cross-Origin Request))
 app.use(function (req, res, next) {
     //res.header("Access-Control-Allow-Origin", "http://localhost"); //pour déploiement local
-    res.header("Access-Control-Allow-Origin", "http://app-d2188754-becd-40a6-af9a-97795c470df7.cleverapps.io");
+    res.header("Access-Control-Allow-Origin", "http://app-68a07762-5ead-4cd7-b368-9f26ecac6c86.cleverapps.io");
     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
     res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Origin, Origin, Accept, Content-type");
     next();
