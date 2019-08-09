@@ -32,5 +32,5 @@ function php(request, response) {
 }
 
 let server = http.createServer(php);
-server.listen(8000);
-console.log("PHP files are ready to run on port 8000.");
+server.listen(8080);
+console.log("PHP files are ready to run on port 8080.");
