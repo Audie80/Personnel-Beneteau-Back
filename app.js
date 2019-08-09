@@ -1,36 +1,35 @@
-var http = require("http");;
-var fs = require("fs");
-var path = require("path");
-var url = require("url");
-var runner = require("child_process");
+const express = require('express');
+const bodyParser = require('body-parser');
 
-function sendError(errCode, errString, response) {
-    response.writeHead(errCode, { "Content-Type": "text/plain;charset=utf-8" });
-    response.write(errString + "\n");
-    response.end();
-    return false;
-}
+// create express app
+const app = express();
 
-function sendData(err, stdout, stderr, response) {
-    if (err) return sendError(500, stderr, response);
-    response.writeHead(200, { "Content-Type": "text/html" });
-    response.write(stdout);
-    response.end();
-}
+// enable CORS (autorise requête multiorigines (Cross-Origin Request))
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
+    res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Origin, Origin, Accept, Content-type");
+    next();
+});
 
-function runScript(exists, file, param, response) {
-    if (!exists) return sendError(404, 'File not found', response);
-    runner.exec("php " + file + " " + param,
-        function (err, stdout, stderr) { sendData(err, stdout, stderr, response); });
-}
+// permet de poster des objets JSON
+app.use(express.json())
 
-function php(request, response) {
-    let urlpath = url.parse(request.url).pathname;
-    let param = url.parse(request.url).query;
-    let localpath = path.join(process.cwd(), urlpath);
-    fs.exists(localpath, function (result) { runScript(result, localpath, param, response) });
-}
+// parse requests of content-type - application/json
+app.use(bodyParser.json())
 
-let server = http.createServer(php);
-server.listen(8080);
-console.log("PHP files are ready to run on port 8080.");
+// Database connection
+let bddsql = require('./config/database.config');
+
+bddsql.BDDSQL.connect(function (err) {
+    if (err) throw err;
+    console.log("Successfully connected to the database.");
+    require('./express/routes/employees.routes')(app);
+    require('./express/routes/leaves.routes')(app);
+});
+
+
+// listen for requests
+app.listen(3000, () => {
+    console.log("Server is listening on port 3000");
+});
