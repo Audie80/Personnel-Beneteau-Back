@@ -30,10 +30,10 @@ bddsql.BDDSQL.connect(function (err) {
 });
 
 
-// listen for requests
-//app.listen(3000, () => {
-//    console.log("Server is listening on port 3000"); //pour déploiement local
-//});
-app.listen(8080, () => {
-    console.log("Server is listening on port 8080");
+//Définition du port de l'application. Par défaut : port 3000.
+const port = process.env.PORT || 3000;
+
+//Démarrage sur serveur :
+app.listen(port, () => {
+    console.log(`Server is running on port: ${port} `);
 });
