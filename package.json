@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "main": "app.js"
+    "main": "app.js",
+    "test": "mocha"
   },
   "dependencies": {
     "body-parser": "~1.19.0",
@@ -14,5 +15,9 @@
     "mysql": "~2.17.1",
     "node": "~12.7.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^7.0.0"
+  }
 }
