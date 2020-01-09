@@ -2,14 +2,14 @@ const chai = require("chai");
 const should = chai.should();
 const chaiHttp = require("chai-http");
 
-const server = require("../app-test.js");
-const bddsqlTest = require("../config/databaseTest.config");
+const server = require("../app.js");
+const bddsql = require("../config/databaseTest.config");
 
 chai.use(chaiHttp);
 
 describe("BDD connection", () => {
   beforeEach(function () {
-    bddsqlTest.BDDSQLTEST.query("DELETE FROM EMPLOYEES", function (err, result) {
+    bddsql.BDDSQL.query("DELETE FROM EMPLOYEES", function (err, result) {
       if (err) throw err;
     });
   });
@@ -32,21 +32,27 @@ describe("BDD connection", () => {
 
     it("should send employee's data when creating an employee in the database", done => {
       // Test qui vérifie qu'on a le bon résultat lorsque l'on crée un employé dans la base de données
-      bddsqlTest.BDDSQLTEST.query("INSERT INTO EMPLOYEES(FirstName, LastName, BirthDate) VALUES ('Aude', 'Velly', '1981-03-30')", function (err, result) {
+      bddsql.BDDSQL.query("INSERT INTO EMPLOYEES(FirstName, LastName, BirthDate) VALUES ('Aude', 'Velly', '1981-03-30')", function (err, result) {
         if (err) throw err;
         chai
           .request(server)
-          .get("/api/employees")
+          .get('/api/employees')
           .end((err, res) => {
             res.should.have.status(200);
-            res.body.should.be.a("array");
+            res.body.should.be.a('array');
             res.body.length.should.be.eql(1);
+            res.body[0].should.be.a('object');
+            res.body[0].should.have.property('ID_EMPLOYEE');
+            res.body[0].should.have.property('FirstName');
             res.body[0].FirstName.should.be.eql('Aude'); // On vérifie que les éléments retournés par la route sont semblables à ceux que l'on a enregistré dans la base
+            res.body[0].should.have.property('LastName');
             res.body[0].LastName.should.be.eql('Velly');
+            res.body[0].should.have.property('BirthDate');
             res.body[0].BirthDate.should.be.eql('1981-03-30');
             done();
           });
       });
     });
   });
+
 });

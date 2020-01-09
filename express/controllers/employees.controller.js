@@ -1,7 +1,15 @@
 const mysql = require('mysql');
+const config = require("config");
+
+// Environnement de déploiement
+const ENV = config.get('env');
 
 // Database connection
-let bddsql = require('../../config/database.config');
+if (ENV === 'production') {
+    var bddsql = require('../../config/database.config');
+} else if (ENV === 'test') {
+    var bddsql = require("../../config/databaseTest.config");
+}
 
 // Retrieve and return all employees from the database.
 exports.findAll = (req, res) => {

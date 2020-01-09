@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const employeesRoutes = require("./express/routes/employees.routes");
-const leavesRoutes = require("./express/routes/leaves.routes");
+const config = require('config');
+const employeesRoutes = require('./express/routes/employees.routes');
+const leavesRoutes = require('./express/routes/leaves.routes');
 
 // create express app
 const app = express();
@@ -9,19 +10,27 @@ const app = express();
 //Définition du port de l'application. Par défaut : port 3000.
 const port = process.env.PORT || 3000;
 
-// Database connection
-let bddsql = require('./config/database.config');
+//Environnement de déploiement
+const ENV = config.get('env');
 
-bddsql.BDDSQL.connect(function (err) {
-    if (err) throw err;
-    console.log("Successfully connected to the database.");
+// Database connection
+if (ENV === 'production') {
+    var bddsql = require('./config/database.config');
+    var message = 'Successfully connected to the database.';
+} else if (ENV === 'test') {
+    var bddsql = require('./config/databaseTest.config');
+    var message = 'Successfully connected to the testdatabase.';
+}
+bddsql.BDDSQL.connect(function(err) {
+  if (err) throw err;
+  console.log(message);
 });
 
 // enable CORS (autorise requête multiorigines (Cross-Origin Request))
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost") || res.header("Access-Control-Allow-Origin", "http://app-68a07762-5ead-4cd7-b368-9f26ecac6c86.cleverapps.io");
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
-    res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Origin, Origin, Accept, Content-type");
+    res.header('Access-Control-Allow-Origin', 'http://localhost') || res.header('Access-Control-Allow-Origin', 'http://app-68a07762-5ead-4cd7-b368-9f26ecac6c86.cleverapps.io');
+    res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin, Origin, Accept, Content-type');
     next();
 });
 
