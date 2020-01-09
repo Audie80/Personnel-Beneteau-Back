@@ -11,7 +11,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //Environnement de déploiement
-const ENV = config.get('env');
+const ENV = NODE_APP_INSTANCE || config.get("env");
 
 // Database connection
 if (ENV === 'production') {

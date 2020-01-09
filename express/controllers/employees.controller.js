@@ -2,7 +2,7 @@ const mysql = require('mysql');
 const config = require("config");
 
 // Environnement de déploiement
-const ENV = config.get('env');
+const ENV = NODE_APP_INSTANCE || config.get("env");
 
 // Database connection
 if (ENV === 'production') {
