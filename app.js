@@ -28,7 +28,7 @@ bddsql.BDDSQL.connect(function(err) {
 
 // enable CORS (autorise requête multiorigines (Cross-Origin Request))
 app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost') || res.header('Access-Control-Allow-Origin', 'http://app-68a07762-5ead-4cd7-b368-9f26ecac6c86.cleverapps.io');
+    res.header('Access-Control-Allow-Origin', 'http://localhost') || res.header('Access-Control-Allow-Origin', 'https://app-68a07762-5ead-4cd7-b368-9f26ecac6c86.cleverapps.io');
     res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
     res.header('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin, Origin, Accept, Content-type');
     next();
